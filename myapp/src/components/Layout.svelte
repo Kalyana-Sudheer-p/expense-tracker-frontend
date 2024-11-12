@@ -1,6 +1,6 @@
 <!-- components/Layout.svelte -->
 <script>
-  import Navbar from './Navbar.svelte';  <!-- Import Navbar -->
+  import Navbar from './Navbar.svelte';
 </script>
 
 <div>

@@ -1,6 +1,6 @@
 <script>
   import { goto } from '$app/navigation';
-
+  import Layout from '../../components/Layout.svelte';
   let username = '';
   let password = '';
   let errorMessage = '';
@@ -28,7 +28,8 @@
   };
 </script>
 
-<main>
+<Layout>
+  <main>
   <div class="container">
     <div class="form-container">
       <h2>Login</h2>
@@ -67,6 +68,7 @@
     </div>
   </div>
 </main>
+</Layout>
 
 <style>
   /* Global styles for the container and background */

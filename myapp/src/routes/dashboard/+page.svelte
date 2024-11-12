@@ -1,6 +1,8 @@
 <script>
   import { onMount } from 'svelte';
   import { goto } from '$app/navigation';
+  import Navbar from '../../components/Navbar.svelte';
+  import Layout from '../../components/Layout.svelte';
 
   let userData = null;
   let errorMessage = '';
@@ -30,13 +32,13 @@
     }
   });
 
-  // Logout function
-  function logout() {
-    localStorage.removeItem('token'); // Remove the token from localStorage
-    goto('/login'); // Redirect to login page
-  }
+  // // Logout function
+  // function logout() {
+  //   localStorage.removeItem('token'); // Remove the token from localStorage
+  //   goto('/login'); // Redirect to login page
+  // }
 </script>
-
+<Layout>
 <main>
   <div class="container">
     <div class="form-container">
@@ -45,14 +47,14 @@
         <p>Your expenses: {userData.expenses}</p>
         
         <!-- Logout button -->
-        <button on:click={logout} class="submit-btn">Logout</button>
+        <!-- <button on:click={logout} class="submit-btn">Logout</button> -->
       {:else}
         <p>{errorMessage ? errorMessage : 'Loading...'}</p>
       {/if}
     </div>
   </div>
 </main>
-
+</Layout>
 <style>
   /* Global styles for the container and background */
   main {
@@ -60,7 +62,7 @@
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    background-color: #f3f4f6;
+    background-color: #f6f6f8;
   }
 
   /* Form container styling */
