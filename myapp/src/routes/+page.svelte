@@ -1,9 +1,9 @@
-<!-- routes/+page.svelte -->
+<!-- /src/routes/+page.svelte -->
 <script>
   import Layout from '../components/Layout.svelte';
 </script>
 
 <Layout>
-  <!-- The <slot> here will render the child components based on the route -->
-  <slot></slot>
+  <h1>Welcome to My Expense Tracker</h1>
+  <!-- Display overview or links to login/register -->
 </Layout>

@@ -17,7 +17,8 @@
 
       if (res.ok) {
         const data = await res.json();
-        localStorage.setItem('token', data.token);
+        localStorage.setItem('token', data.token);  // Store token in localStorage
+        localStorage.setItem('userId', data.userId);  // Store userId in localStorage
         goto('/dashboard'); // Redirect on success
       } else {
         errorMessage = 'Invalid credentials';
@@ -30,44 +31,44 @@
 
 <Layout>
   <main>
-  <div class="container">
-    <div class="form-container">
-      <h2>Login</h2>
-      
-      <form on:submit|preventDefault={handleLogin}>
-        <div>
-          <input
-            bind:value={username}
-            placeholder="Username"
-            required
-            class="input-field"
-          />
-        </div>
+    <div class="container">
+      <div class="form-container">
+        <h2>Login</h2>
+        
+        <form on:submit|preventDefault={handleLogin}>
+          <div>
+            <input
+              bind:value={username}
+              placeholder="Username"
+              required
+              class="input-field"
+            />
+          </div>
 
-        <div>
-          <input
-            bind:value={password}
-            type="password"
-            placeholder="Password"
-            required
-            class="input-field"
-          />
-        </div>
+          <div>
+            <input
+              bind:value={password}
+              type="password"
+              placeholder="Password"
+              required
+              class="input-field"
+            />
+          </div>
 
-        <button
-          type="submit"
-          class="submit-btn"
-        >
-          Login
-        </button>
+          <button
+            type="submit"
+            class="submit-btn"
+          >
+            Login
+          </button>
 
-        {#if errorMessage}
-          <p class="error-message">{errorMessage}</p>
-        {/if}
-      </form>
+          {#if errorMessage}
+            <p class="error-message">{errorMessage}</p>
+          {/if}
+        </form>
+      </div>
     </div>
-  </div>
-</main>
+  </main>
 </Layout>
 
 <style>
