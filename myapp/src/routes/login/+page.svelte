@@ -72,13 +72,13 @@
 </Layout>
 
 <style>
-  /* Global styles for the container and background */
+  /* Remove the global background, focus on the form container */
   main {
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    background-color: #f3f4f6;
+    background-color: transparent; /* No background */
   }
 
   /* Form container styling */
@@ -114,15 +114,15 @@
 
   .input-field:focus {
     outline: none;
-    border-color: #2563eb; /* Blue border on focus */
-    box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.2); /* Light blue glow */
+    border-color: #7b4fe1; /* Color updated to #7b4fe1 */
+    box-shadow: 0 0 0 2px rgba(123, 79, 225, 0.2); /* Light glow with #7b4fe1 */
   }
 
   /* Button styling */
   .submit-btn {
     width: 100%;
     padding: 14px;
-    background-color: #2563eb; /* Blue background */
+    background-color: #7b4fe1; /* Button color updated to #7b4fe1 */
     color: white;
     font-weight: bold;
     border: none;
@@ -133,7 +133,7 @@
   }
 
   .submit-btn:hover {
-    background-color: #1d4ed8; /* Darker blue on hover */
+    background-color: #5e3cc7; /* Darker variant of #7b4fe1 */
   }
 
   /* Error message */

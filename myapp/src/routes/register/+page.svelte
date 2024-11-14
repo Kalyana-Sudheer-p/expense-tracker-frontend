@@ -26,54 +26,56 @@
     }
   };
 </script>
+
 <Layout>
-<main>
-  <div class="container">
-    <div class="form-container">
-      <h2>Register</h2>
-      
-      <form on:submit|preventDefault={handleRegister}>
-        <div>
-          <input
-            bind:value={username}
-            placeholder="Username"
-            required
-            class="input-field"
-          />
-        </div>
-
-        <div>
-          <input
-            bind:value={password}
-            type="password"
-            placeholder="Password"
-            required
-            class="input-field"
-          />
-        </div>
-
-        <button type="submit" class="submit-btn">Register</button>
-
-        {#if errorMessage}
-          <p class="error-message">{errorMessage}</p>
-        {/if}
+  <main>
+    <div class="container">
+      <div class="form-container">
+        <h2>Register</h2>
         
-        <p class="login-link">
-          Already have an account? <a href="/login">Login</a>
-        </p>
-      </form>
+        <form on:submit|preventDefault={handleRegister}>
+          <div>
+            <input
+              bind:value={username}
+              placeholder="Username"
+              required
+              class="input-field"
+            />
+          </div>
+
+          <div>
+            <input
+              bind:value={password}
+              type="password"
+              placeholder="Password"
+              required
+              class="input-field"
+            />
+          </div>
+
+          <button type="submit" class="submit-btn">Register</button>
+
+          {#if errorMessage}
+            <p class="error-message">{errorMessage}</p>
+          {/if}
+          
+          <p class="login-link">
+            Already have an account? <a href="/login">Login</a>
+          </p>
+        </form>
+      </div>
     </div>
-  </div>
-</main>
+  </main>
 </Layout>
+
 <style>
-  /* Global styles for the container and background */
+  /* Global styles for the container */
   main {
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    background-color: #f3f4f6;
+    background-color: #f9fafb; /* Light background */
   }
 
   /* Form container styling */
@@ -84,7 +86,7 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     width: 100%;
     max-width: 380px;
-    border: 1px solid #e5e7eb; /* Light border to match repo style */
+    border: 1px solid #d1d5db; /* Light border */
   }
 
   .form-container h2 {
@@ -104,20 +106,20 @@
     box-sizing: border-box;
     font-size: 16px;
     color: #111827;
-    background-color: #f9fafb;
+    background-color: #f3f4f6; /* Light gray background */
   }
 
   .input-field:focus {
     outline: none;
-    border-color: #2563eb; /* Blue border on focus */
-    box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.2); /* Light blue glow */
+    border-color: #7b4fe1; /* Purple border on focus */
+    box-shadow: 0 0 0 2px rgba(123, 79, 225, 0.2); /* Light purple glow */
   }
 
   /* Button styling */
   .submit-btn {
     width: 100%;
     padding: 14px;
-    background-color: #2563eb; /* Blue background */
+    background-color: #7b4fe1; /* Purple background */
     color: white;
     font-weight: bold;
     border: none;
@@ -128,7 +130,7 @@
   }
 
   .submit-btn:hover {
-    background-color: #1d4ed8; /* Darker blue on hover */
+    background-color: #6b38c7; /* Darker purple on hover */
   }
 
   /* Error message */
@@ -147,7 +149,7 @@
   }
 
   .login-link a {
-    color: #2563eb;
+    color: #7b4fe1; /* Purple for the link */
     font-weight: bold;
     text-decoration: none;
   }

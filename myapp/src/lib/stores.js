@@ -1,20 +1,23 @@
+// stores.js
 import { writable } from 'svelte/store';
 
-function createUserStore() {
-  const storedUser = JSON.parse(localStorage.getItem('user'));
-  const { subscribe, set, update } = writable(storedUser);
+// Create a writable store to hold the expenses
+export const expenses = writable([]);
 
-  return {
-    subscribe,
-    set: (user) => {
-      localStorage.setItem('user', JSON.stringify(user));
-      set(user);
-    },
-    logout: () => {
-      localStorage.removeItem('user');
-      set(null);
+// Function to fetch expenses and populate the store
+export async function fetchExpenses() {
+  const token = localStorage.getItem('token');
+  const userId = localStorage.getItem('userId');
+
+  if (token && userId) {
+    const response = await fetch(`http://localhost:5000/api/expenses/${userId}`, {
+      headers: { 'Authorization': `Bearer ${token}` }
+    });
+    if (response.ok) {
+      const data = await response.json();
+      expenses.set(data);
+    } else {
+      console.error("Failed to fetch expenses");
     }
-  };
+  }
 }
-
-export const user = createUserStore();
