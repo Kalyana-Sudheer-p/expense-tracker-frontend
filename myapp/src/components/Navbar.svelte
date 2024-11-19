@@ -1,12 +1,15 @@
 <script>
-  import { goto } from '$app/navigation';
-  import { onMount } from 'svelte';
+  import { goto } from "$app/navigation";
+  import { onMount } from "svelte";
 
   let isAuthenticated = false;
+  let userId = null;
 
-  // Check if user is authenticated based on the token
+  // Check if user is authenticated and retrieve userId
   onMount(() => {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem("token");
+    userId = localStorage.getItem("userId"); // Retrieve userId from localStorage
+
     if (token) {
       isAuthenticated = true;
     } else {
@@ -16,20 +19,29 @@
 
   // Logout function
   function logout() {
-    localStorage.removeItem('token'); // Remove the token
-    localStorage.removeItem('userId');
+    localStorage.removeItem("token"); // Remove the token
+    localStorage.removeItem("userId"); // Remove userId
     isAuthenticated = false; // Update authentication state
-    goto('/login'); // Redirect to login page
+    goto("/login"); // Redirect to login page
   }
 
-  // Navigate to login or register page
+  // Navigate to a specific path
   function navigateTo(path) {
     goto(path);
   }
 
+  // Navigate to Budget Summary with userId
+  function navigateToBudgetSummary() {
+    if (userId) {
+      goto(`/budgetsummary/${userId}`); // Include userId in the URL
+    } else {
+      console.error("User ID is not available.");
+    }
+  }
+
   // Navigate to home page
   function navigateHome() {
-    goto('/');
+    goto("/");
   }
 </script>
 
@@ -37,14 +49,25 @@
   <div class="navbar-content">
     <!-- Make the logo clickable and navigate to the home page -->
     <h3 class="logo" on:click={navigateHome}>MyApp</h3>
-    
+
     <div class="nav-links">
       {#if isAuthenticated}
-        <button class="nav-button" on:click={() => navigateTo('/dashboard')}>Dashboard</button>
-        <button class="nav-button logout-button" on:click={logout}>Logout</button>
+        <button class="nav-button" on:click={() => navigateTo("/dashboard")}
+          >Dashboard</button
+        >
+        <button class="nav-button" on:click={navigateToBudgetSummary}
+          >Budget Summary</button
+        >
+        <button class="nav-button logout-button" on:click={logout}
+          >Logout</button
+        >
       {:else}
-        <button class="nav-button" on:click={() => navigateTo('/login')}>Login</button>
-        <button class="nav-button" on:click={() => navigateTo('/register')}>Register</button>
+        <button class="nav-button" on:click={() => navigateTo("/login")}
+          >Login</button
+        >
+        <button class="nav-button" on:click={() => navigateTo("/register")}
+          >Register</button
+        >
       {/if}
     </div>
   </div>
@@ -53,7 +76,11 @@
 <style>
   /* Navbar container - fixed at the top */
   .navbar {
-    background: linear-gradient(90deg, #7b4fe1, #6d33d7); /* Adjusted to use #7b4fe1 */
+    background: linear-gradient(
+      90deg,
+      #7b4fe1,
+      #6d33d7
+    ); /* Adjusted to use #7b4fe1 */
     color: white;
     padding: 12px 24px;
     display: flex;
@@ -82,7 +109,7 @@
     font-size: 26px;
     font-weight: bold;
     margin: 0;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
     color: #f3f4f6; /* Light color for contrast */
     letter-spacing: 1px;
     cursor: pointer;
@@ -109,7 +136,7 @@
     cursor: pointer;
     font-size: 15px;
     font-weight: 500;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     transition: all 0.3s ease;
   }
