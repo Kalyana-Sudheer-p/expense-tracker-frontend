@@ -3,157 +3,116 @@
   import { onMount } from "svelte";
 
   let isAuthenticated = false;
-  let userId = null;
 
-  // Check if user is authenticated and retrieve userId
   onMount(() => {
     const token = localStorage.getItem("token");
-    userId = localStorage.getItem("userId"); // Retrieve userId from localStorage
-
-    if (token) {
-      isAuthenticated = true;
-    } else {
-      isAuthenticated = false;
-    }
+    isAuthenticated = token ? true : false;
   });
 
-  // Logout function
   function logout() {
-    localStorage.removeItem("token"); // Remove the token
-    localStorage.removeItem("userId"); // Remove userId
-    isAuthenticated = false; // Update authentication state
-    goto("/login"); // Redirect to login page
+    localStorage.removeItem("token");
+    isAuthenticated = false;
+    goto("/login");
   }
 
-  // Navigate to a specific path
   function navigateTo(path) {
     goto(path);
-  }
-
-  // Navigate to Budget Summary with userId
-  function navigateToBudgetSummary() {
-    if (userId) {
-      goto(`/budgetsummary/${userId}`); // Include userId in the URL
-    } else {
-      console.error("User ID is not available.");
-    }
-  }
-
-  // Navigate to home page
-  function navigateHome() {
-    goto("/");
   }
 </script>
 
 <nav class="navbar">
   <div class="navbar-content">
-    <!-- Make the logo clickable and navigate to the home page -->
-    <h3 class="logo" on:click={navigateHome}>MyApp</h3>
+    <h3 class="logo" on:click={() => goto("/")}>ExpenseTracker</h3>
 
     <div class="nav-links">
       {#if isAuthenticated}
-        <button class="nav-button" on:click={() => navigateTo("/dashboard")}
-          >Dashboard</button
-        >
-        <button class="nav-button" on:click={navigateToBudgetSummary}
-          >Budget Summary</button
-        >
-        <button class="nav-button logout-button" on:click={logout}
-          >Logout</button
-        >
+        <a class="nav-link" on:click={() => navigateTo("/dashboard")}>Dashboard</a>
+        <a class="nav-link logout-link" on:click={logout}>Logout</a>
       {:else}
-        <button class="nav-button" on:click={() => navigateTo("/login")}
-          >Login</button
-        >
-        <button class="nav-button" on:click={() => navigateTo("/register")}
-          >Register</button
-        >
+        <a class="nav-link" on:click={() => navigateTo("/login")}>Login</a>
+        <a class="nav-link" on:click={() => navigateTo("/register")}>Register</a>
       {/if}
     </div>
   </div>
 </nav>
 
 <style>
-  /* Navbar container - fixed at the top */
+  /* Navbar */
   .navbar {
-    background: linear-gradient(
-      90deg,
-      #7b4fe1,
-      #6d33d7
-    ); /* Adjusted to use #7b4fe1 */
+    background: linear-gradient(90deg, #7b4fe1, #6d33d7);
     color: white;
-    padding: 12px 24px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    position: fixed; /* Fixed at the top */
+    position: fixed;
     top: 0;
     left: 0;
     right: 0;
-    z-index: 10; /* Ensure it stays above other content */
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    z-index: 100;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Soft shadow */
+    padding: 0 30px;
+    height: 70px;
   }
 
-  /* Navbar content */
+  /* Navbar content container */
   .navbar-content {
     display: flex;
     justify-content: space-between;
     align-items: center;
     width: 100%;
-    max-width: 1200px; /* Centered layout */
+    max-width: 1200px;
     margin: 0 auto;
   }
 
-  /* Logo styling */
+  /* Logo */
   .logo {
-    font-size: 26px;
-    font-weight: bold;
-    margin: 0;
-    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-    color: #f3f4f6; /* Light color for contrast */
-    letter-spacing: 1px;
+    font-size: 28px;
+    font-weight: 700;
+    color: white;
     cursor: pointer;
+    letter-spacing: 1.5px;
     transition: color 0.3s ease;
   }
 
   .logo:hover {
-    color: #dbeafe;
+    color: #e5e7eb;
   }
 
-  /* Navigation links container */
+  /* Navigation Links container */
   .nav-links {
     display: flex;
     gap: 20px;
+    align-items: center;
+    cursor: pointer;
   }
 
-  /* Button styling */
-  .nav-button {
-    padding: 10px 24px;
-    background-color: #f3f4f6;
-    color: #7b4fe1; /* Changed button text color to match the navbar */
-    border: none;
-    border-radius: 25px;
-    cursor: pointer;
-    font-size: 15px;
+  /* Navigation Link styles */
+  .nav-link {
+    padding: 8px 16px;
+    font-size: 16px;
     font-weight: 500;
-    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    color: white;
+    text-decoration: none;
+    border-radius: 30px;
     transition: all 0.3s ease;
   }
 
-  .nav-button:hover {
+  .nav-link:hover {
     background-color: #e5e7eb;
-    color: #6d33d7; /* Adjusted to match the second gradient color */
+    color: #6d33d7;
     transform: translateY(-2px);
   }
 
-  /* Logout button with specific style */
-  .logout-button {
-    background-color: #f87171; /* Slightly different color for emphasis */
+  /* Logout Link style */
+  .logout-link {
+    background-color: #f87171;
     color: white;
+    border-radius: 30px;
+    padding: 8px 16px;
   }
 
-  .logout-button:hover {
+  .logout-link:hover {
     background-color: #ef4444;
+    transform: translateY(-2px);
   }
 </style>

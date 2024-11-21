@@ -61,8 +61,8 @@
           {#each summary as { name, budget, remaining }}
             <tr>
               <td>{name}</td>
-              <td>${budget.toFixed(2)}</td>
-              <td>${remaining.toFixed(2)}</td>
+              <td>{budget.toFixed(2)}/-</td>
+              <td>{remaining.toFixed(2)}/-</td>
             </tr>
           {/each}
         </tbody>

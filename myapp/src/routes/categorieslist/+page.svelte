@@ -65,7 +65,7 @@
           <li>
             <h3>{category.name}</h3>
             <p><strong>Budget:</strong> {category.budget.toFixed(2)}/-</p>
-            <p><strong>Credits:</strong>{category.credits.toFixed(2)}/-</p>
+            <!-- <p><strong>Credits:</strong>{category.credits.toFixed(2)}/-</p> -->
             <p><strong>Debits:</strong> {category.debits.toFixed(2)}/-</p>
           </li>
         {/each}

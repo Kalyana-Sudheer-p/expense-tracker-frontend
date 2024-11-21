@@ -1,11 +1,12 @@
-<!-- /src/routes/+page.svelte -->
 <script>
   import Layout from "../components/Layout.svelte";
 </script>
 
 <Layout>
-  <h1>Welcome to My Expense Tracker</h1>
-  <!-- Display overview or links to login/register -->
+  <div class="main-container">
+    <h1 class="main-heading">Welcome to My Expense Tracker</h1>
+    <!-- Display overview or links to login/register -->
+  </div>
 </Layout>
 
 <style>
@@ -13,7 +14,9 @@
   .main-container {
     padding: 16px;
     max-width: 1200px;
-    margin: 0 auto;
+    margin-left: 250px; /* Adjusted for the sidebar width */
+    margin-top: 80px; /* Adjusted for the navbar height */
+    margin-right: 16px; /* Added right margin to avoid overlap */
     color: #333;
     font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   }
