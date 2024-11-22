@@ -1,34 +1,39 @@
 <script>
-  import Layout from '../../components/Layout.svelte';
-  import { expenses } from '../../lib/stores'; // Adjust path as needed
-  import { goto } from '$app/navigation';
-  import { onMount } from 'svelte';
+  import Layout from "../../components/Layout.svelte";
+  import { expenses } from "../../lib/stores"; // Adjust path as needed
+  import { goto } from "$app/navigation";
+  import { onMount } from "svelte";
 
   let categories = []; // Stores the fetched categories
-  let selectedCategoryId = ''; // Selected category ID
-  let amount = '';
-  let description = '';
+  let selectedCategoryId = ""; // Selected category ID
+  let amount = "";
+  let description = "";
+  let expenseDate = ""; // Store for the date input
 
   // Fetch available categories
   async function fetchCategories() {
-    if (typeof window !== 'undefined') { // Check for browser environment
-      const token = localStorage.getItem('token');
-      const userId = localStorage.getItem('userId');
+    if (typeof window !== "undefined") {
+      // Check for browser environment
+      const token = localStorage.getItem("token");
+      const userId = localStorage.getItem("userId");
 
       try {
-        const response = await fetch(`http://localhost:5000/api/categories/${userId}`, {
-          headers: {
-            'Authorization': `Bearer ${token}`
+        const response = await fetch(
+          `http://localhost:5000/api/categories/${userId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
           }
-        });
+        );
 
         if (response.ok) {
           categories = await response.json(); // Set fetched categories
         } else {
-          alert('Failed to fetch categories');
+          alert("Failed to fetch categories");
         }
       } catch (error) {
-        console.error('Error fetching categories:', error);
+        console.error("Error fetching categories:", error);
       }
     }
   }
@@ -39,30 +44,37 @@
   });
 
   async function handleAddExpense() {
-    if (typeof window !== 'undefined') { // Check for browser environment
-      const token = localStorage.getItem('token');
-      const userId = localStorage.getItem('userId');
+    if (typeof window !== "undefined") {
+      // Check for browser environment
+      const token = localStorage.getItem("token");
+      const userId = localStorage.getItem("userId");
 
-      const response = await fetch('http://localhost:5000/api/expenses', {
-        method: 'POST',
+      const response = await fetch("http://localhost:5000/api/expenses", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({ categoryId: selectedCategoryId, amount, description, userId })
+        body: JSON.stringify({
+          categoryId: selectedCategoryId,
+          amount,
+          description,
+          userId,
+          date: expenseDate, // Send the selected date
+        }),
       });
 
       if (response.ok) {
         const newExpense = await response.json(); // Assuming the backend returns the added expense
-        // @ts-ignore
-        expenses.update(currentExpenses => [...currentExpenses, newExpense]); // Add new expense to the store
-        selectedCategoryId = '';
-        amount = '';
-        description = '';
-        alert('Expense added successfully!');
-        goto('/dashboard');
+        expenses.update((currentExpenses) => [...currentExpenses, newExpense]); // Add new expense to the store
+        selectedCategoryId = "";
+        amount = "";
+        description = "";
+        expenseDate = ""; // Clear the date field
+        alert("Expense added successfully!");
+        goto("/dashboard");
       } else {
-        alert('Failed to add expense');
+        alert("Failed to add expense");
       }
     }
   }
@@ -82,11 +94,24 @@
     </div>
     <div class="form-group">
       <label for="amount">Amount</label>
-      <input id="amount" type="number" bind:value={amount} placeholder="Enter amount" />
+      <input
+        id="amount"
+        type="number"
+        bind:value={amount}
+        placeholder="Enter amount"
+      />
     </div>
     <div class="form-group">
       <label for="description">Description</label>
-      <textarea id="description" bind:value={description} placeholder="Enter description"></textarea>
+      <textarea
+        id="description"
+        bind:value={description}
+        placeholder="Enter description"
+      ></textarea>
+    </div>
+    <div class="form-group">
+      <label for="date">Date</label>
+      <input id="date" type="date" bind:value={expenseDate} />
     </div>
     <div class="form-group">
       <button on:click={handleAddExpense}>Add Expense</button>

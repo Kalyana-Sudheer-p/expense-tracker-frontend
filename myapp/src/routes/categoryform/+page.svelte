@@ -54,6 +54,7 @@
         name = "";
         budget = "";
         console.log("New Category:", data);
+        goto("/categorieslist")
       } else {
         const errorData = await response.json();
         errorMessage = errorData.message || "Error creating category.";

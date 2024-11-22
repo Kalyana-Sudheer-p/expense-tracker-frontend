@@ -26,7 +26,6 @@
 
     <div class="nav-links">
       {#if isAuthenticated}
-        <a class="nav-link" on:click={() => navigateTo("/dashboard")}>Dashboard</a>
         <a class="nav-link logout-link" on:click={logout}>Logout</a>
       {:else}
         <a class="nav-link" on:click={() => navigateTo("/login")}>Login</a>

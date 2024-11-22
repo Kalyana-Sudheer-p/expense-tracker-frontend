@@ -17,17 +17,17 @@
 
 {#if token}
   <div class="sidebar">
-    <button class="sidebar-button" on:click={() => navigateTo(`/budgetsummary/${userId}`)}>
-      Budget Summary
+    <button class="sidebar-button" on:click={() => navigateTo(`/dashboard`)}>
+      Dashboard
     </button>
     <button class="sidebar-button" on:click={() => navigateTo(`/categorieslist`)}>
       Categories List
     </button>
-    <button class="sidebar-button" on:click={() => navigateTo(`/categoryform`)}>
-      Category Form
+    <button class="sidebar-button" on:click={() => navigateTo(`/categoriesgraph`)}>
+      Categories Graph
     </button>
-    <button class="sidebar-button" on:click={() => navigateTo(`/updatecategorybudget`)}>
-      Update Category Budget
+    <button class="sidebar-button" on:click={() => navigateTo(`/budgetsummary/${userId}`)}>
+      Budget Summary
     </button>
   </div>
 {/if}
