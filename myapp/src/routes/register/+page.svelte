@@ -184,13 +184,10 @@
     margin-top: 10px;
   }
 
-  .account-text a {
-    color: #7b4fe1;
-    font-weight: bold;
-    text-decoration: none;
-  }
-
-  .account-text a:hover {
-    text-decoration: underline;
+  .account-text {
+    text-align: center;
+    font-size: 14px;
+    color: #6b7280;
+    margin-top: 10px;
   }
 </style>
