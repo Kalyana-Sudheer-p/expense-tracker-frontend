@@ -1,30 +1,44 @@
 <script>
-  import { goto } from '$app/navigation';
-  import Layout from '../../components/Layout.svelte';
+  import { goto } from "$app/navigation";
+  import Layout from "../../components/Layout.svelte";
 
-  let username = '';
-  let password = '';
-  let errorMessage = '';
+  let username = "";
+  let password = "";
+  let confirmPassword = ""; // New field for confirmation
+  let errorMessage = "";
+  let passwordField; // Reference to the password input field
+  let confirmPasswordField; // Reference to the confirm password input field
 
   const handleRegister = async () => {
+    if (password !== confirmPassword) {
+      errorMessage = "Passwords do not match";
+      return;
+    }
+
     try {
-      const res = await fetch('http://localhost:5000/api/auth/register', {
-        method: 'POST',
+      const res = await fetch("http://localhost:5000/api/auth/register", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({ username, password }),
       });
 
       if (res.ok) {
-        goto('/login'); // Redirect on success
+        goto("/login"); // Redirect on success
       } else {
-        errorMessage = 'Registration failed';
+        errorMessage = "Registration failed";
       }
     } catch (error) {
-      errorMessage = 'An error occurred';
+      errorMessage = "An error occurred";
     }
   };
+
+  function showPassword(event) {
+    const inputType = event.target.checked ? "text" : "password";
+    if (passwordField) passwordField.type = inputType;
+    if (confirmPasswordField) confirmPasswordField.type = inputType;
+  }
 </script>
 
 <Layout>
@@ -32,7 +46,7 @@
     <div class="container">
       <div class="form-container">
         <h2>Register</h2>
-        
+
         <form on:submit|preventDefault={handleRegister}>
           <div>
             <input
@@ -43,14 +57,31 @@
             />
           </div>
 
-          <div>
+          <div class="password-container">
             <input
               bind:value={password}
+              bind:this={passwordField}
               type="password"
-              placeholder="Password"
+              placeholder="Enter Password"
               required
               class="input-field"
             />
+            <input
+              bind:value={confirmPassword}
+              bind:this={confirmPasswordField}
+              type="password"
+              placeholder="Confirm Password"
+              required
+              class="input-field"
+            />
+            <div class="show-password">
+              <input
+                type="checkbox"
+                id="show-password"
+                on:change={showPassword}
+              />
+              <label for="show-password">Show password</label>
+            </div>
           </div>
 
           <button type="submit" class="submit-btn">Register</button>
@@ -58,8 +89,8 @@
           {#if errorMessage}
             <p class="error-message">{errorMessage}</p>
           {/if}
-          
-          <p class="login-link">
+
+          <p class="account-text">
             Already have an account? <a href="/login">Login</a>
           </p>
         </form>
@@ -69,57 +100,64 @@
 </Layout>
 
 <style>
-  /* Global styles for the container */
   main {
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    background-color: #f9fafb; /* Light background */
+    background-color: transparent;
   }
 
-  /* Form container styling */
   .form-container {
     background-color: white;
     border-radius: 8px;
     padding: 20px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     width: 100%;
-    max-width: 380px;
-    border: 1px solid #d1d5db; /* Light border */
+    max-width: 290px;
+    border: 1px solid #e5e7eb;
   }
 
   .form-container h2 {
     text-align: center;
     font-size: 24px;
-    color: #111827; /* Dark text */
+    color: #111827;
     margin-bottom: 20px;
   }
 
-  /* Input fields */
   .input-field {
     width: 100%;
     padding: 12px;
-    border: 1px solid #d1d5db; /* Light border */
+    border: 1px solid #d1d5db;
     border-radius: 6px;
     margin-bottom: 15px;
     box-sizing: border-box;
     font-size: 16px;
     color: #111827;
-    background-color: #f3f4f6; /* Light gray background */
+    background-color: #f3f4f6;
   }
-
   .input-field:focus {
     outline: none;
-    border-color: #7b4fe1; /* Purple border on focus */
-    box-shadow: 0 0 0 2px rgba(123, 79, 225, 0.2); /* Light purple glow */
+    border-color: #7b4fe1;
+    box-shadow: 0 0 0 2px rgba(123, 79, 225, 0.2);
   }
 
-  /* Button styling */
+  .password-container {
+    position: relative;
+  }
+
+  .show-password {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin-top: -10px;
+    margin-bottom: 15px;
+  }
+
   .submit-btn {
     width: 100%;
     padding: 14px;
-    background-color: #7b4fe1; /* Purple background */
+    background-color: #7b4fe1;
     color: white;
     font-weight: bold;
     border: none;
@@ -130,31 +168,29 @@
   }
 
   .submit-btn:hover {
-    background-color: #6b38c7; /* Darker purple on hover */
+    background-color: #5e3cc7;
   }
 
-  /* Error message */
   .error-message {
-    color: #dc2626; /* Red for errors */
+    color: #dc2626;
     text-align: center;
     margin-top: 10px;
   }
 
-  /* Link to login */
-  .login-link {
+  .account-text {
+    text-align: center;
     font-size: 14px;
     color: #6b7280;
-    text-align: center;
     margin-top: 10px;
   }
 
-  .login-link a {
-    color: #7b4fe1; /* Purple for the link */
+  .account-text a {
+    color: #7b4fe1;
     font-weight: bold;
     text-decoration: none;
   }
 
-  .login-link a:hover {
+  .account-text a:hover {
     text-decoration: underline;
   }
 </style>
