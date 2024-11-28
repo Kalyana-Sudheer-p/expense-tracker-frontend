@@ -7,6 +7,27 @@ export const expenses = writable([]);
 // Create a writable store to hold the categories
 export const categories = writable([]);
 
+// Notifications store
+export const notifications = writable([]);
+
+// Function to add a notification
+/**
+ * @param {any} message
+ */
+export function addNotification(message) {
+  notifications.update((current) => {
+    // Add the new notification to the start of the list
+    const updated = [{ message, timestamp: new Date() }, ...current];
+    // Optional: limit to last 10 notifications
+    return updated.slice(0, 10);
+  });
+}
+
+// Function to clear all notifications
+export function clearNotifications() {
+  notifications.set([]);
+}
+
 // Function to fetch expenses and populate the store
 export async function fetchExpenses() {
   const token = localStorage.getItem('token');

@@ -2,7 +2,7 @@
   import { page } from "$app/stores"; // To access URL params
   import { onMount } from "svelte";
   import Layout from "../../../components/Layout.svelte";
-  import { expenses } from "../../../lib/stores"; // Adjust path as needed
+  import { addNotification, expenses } from "../../../lib/stores"; // Adjust path as needed
   import { goto } from "$app/navigation";
 
   let category = "";
@@ -30,9 +30,12 @@
   // Fetch categories based on the userId from the backend
   async function fetchCategories(userId) {
     try {
-      const response = await fetch(`http://localhost:5000/api/categories/${userId}`, {
-        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
-      });
+      const response = await fetch(
+        `http://localhost:5000/api/categories/${userId}`,
+        {
+          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+        }
+      );
       if (response.ok) {
         categories = await response.json();
       } else {
@@ -48,10 +51,13 @@
   async function fetchExpenseData(expenseId) {
     const token = localStorage.getItem("token");
     try {
-      const response = await fetch(`http://localhost:5000/api/expenses/edit/${expenseId}`, {
-        method: "GET",
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      const response = await fetch(
+        `http://localhost:5000/api/expenses/edit/${expenseId}`,
+        {
+          method: "GET",
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
 
       if (response.ok) {
         const expense = await response.json();
@@ -98,6 +104,8 @@
           : [...current, updatedExpense]
       );
       alert("Expense saved successfully!");
+      // After adding an expense
+      addNotification("Creating/Updating expenses!");
       goto("/dashboard");
     } else {
       alert("Failed to save expense");

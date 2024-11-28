@@ -1,9 +1,12 @@
 <script>
   import Layout from "../../components/Layout.svelte";
-  import { expenses } from "../../lib/stores"; // Adjust path as needed
+  import { addNotification, expenses } from "../../lib/stores"; // Adjust path as needed
   import { goto } from "$app/navigation";
   import { onMount } from "svelte";
 
+  /**
+   * @type {any[]}
+   */
   let categories = []; // Stores the fetched categories
   let selectedCategoryId = ""; // Selected category ID
   let amount = "";
@@ -72,6 +75,8 @@
         description = "";
         expenseDate = ""; // Clear the date field
         alert("Expense added successfully!");
+        // After adding an expense
+        addNotification("New expense added!");
         goto("/dashboard");
       } else {
         alert("Failed to add expense");

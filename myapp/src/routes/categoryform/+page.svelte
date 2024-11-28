@@ -3,6 +3,7 @@
   // @ts-ignore
   import { goto } from "$app/navigation";
   import Layout from "../../components/Layout.svelte";
+  import { addNotification } from "$lib/stores";
 
   let name = "";
   let budget = "";
@@ -53,8 +54,10 @@
         successMessage = "Category created successfully!";
         name = "";
         budget = "";
-        console.log("New Category:", data);
-        goto("/categorieslist")
+        // After adding an expense
+        addNotification("New category added!");
+        // console.log("New Category:", data);
+        goto("/categorieslist");
       } else {
         const errorData = await response.json();
         errorMessage = errorData.message || "Error creating category.";

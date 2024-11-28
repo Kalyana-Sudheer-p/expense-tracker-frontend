@@ -1,7 +1,7 @@
 <script>
   import { onMount } from "svelte";
   import { browser } from "$app/environment";
-  import { expenses } from "../lib/stores";
+  import { addNotification, expenses } from "../lib/stores";
   import { goto } from "$app/navigation";
 
   let isAuthenticated = false;
@@ -98,7 +98,9 @@
   // Delete expense function with confirmation
   async function deleteExpense(expenseId) {
     const token = localStorage.getItem("token");
-    const userConfirmed = confirm("Are you sure you want to delete this expense?");
+    const userConfirmed = confirm(
+      "Are you sure you want to delete this expense?"
+    );
     if (!userConfirmed) return;
 
     if (token) {
@@ -113,6 +115,8 @@
             current.filter((expense) => expense._id !== expenseId)
           );
           console.log("Expense deleted successfully");
+          // After adding an expense
+          addNotification("Deleted an expense!");
         } else {
           console.error("Failed to delete expense:", response.statusText);
         }
@@ -127,7 +131,12 @@
 <div class="filters-wrapper">
   <div class="filters-container">
     <div class="filter-group">
-      <input id="category" type="text" placeholder="Category" bind:value={filterCategory} />
+      <input
+        id="category"
+        type="text"
+        placeholder="Category"
+        bind:value={filterCategory}
+      />
     </div>
 
     <div class="filter-group">
@@ -139,16 +148,30 @@
     </div>
 
     <div class="filter-group">
-      <input id="min-price" type="number" placeholder="Min" bind:value={filterMinPrice} />
+      <input
+        id="min-price"
+        type="number"
+        placeholder="Min"
+        bind:value={filterMinPrice}
+      />
     </div>
 
     <div class="filter-group">
-      <input id="max-price" type="number" placeholder="Max" bind:value={filterMaxPrice} />
+      <input
+        id="max-price"
+        type="number"
+        placeholder="Max"
+        bind:value={filterMaxPrice}
+      />
     </div>
 
     <div class="filter-buttons">
-      <button class="apply-filters-btn" on:click={applyFilters}>Apply Filters</button>
-      <button class="clear-filters-btn" on:click={clearFilters}>Clear Filters</button>
+      <button class="apply-filters-btn" on:click={applyFilters}
+        >Apply Filters</button
+      >
+      <button class="clear-filters-btn" on:click={clearFilters}
+        >Clear Filters</button
+      >
     </div>
   </div>
 </div>
@@ -176,7 +199,10 @@
             <button class="edit-btn" on:click={() => editExpense(expense._id)}>
               Edit
             </button>
-            <button class="delete-btn" on:click={() => deleteExpense(expense._id)}>
+            <button
+              class="delete-btn"
+              on:click={() => deleteExpense(expense._id)}
+            >
               Delete
             </button>
           </td>

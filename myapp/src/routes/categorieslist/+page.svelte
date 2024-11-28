@@ -2,6 +2,7 @@
   import { onMount } from "svelte";
   import Layout from "../../components/Layout.svelte";
   import { goto } from "$app/navigation";
+  import { addNotification } from "$lib/stores";
 
   let categories = [];
   let errorMessage = "";
@@ -43,17 +44,24 @@
   }
 
   async function deleteCategory(id) {
-    const confirmDelete = confirm("Are you sure you want to delete this category and its related expenses?");
+    const confirmDelete = confirm(
+      "Are you sure you want to delete this category and its related expenses?"
+    );
     if (!confirmDelete) return;
     try {
-      const response = await fetch(`http://localhost:5000/api/categories/${id}`, {
-        method: 'DELETE',
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      });
+      const response = await fetch(
+        `http://localhost:5000/api/categories/${id}`,
+        {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
       if (response.ok) {
         fetchCategories();
+        // After adding an expense
+        addNotification("Deleted an expense!");
       } else {
         const errorData = await response.json();
         alert(errorData.message || "Error deleting category.");
@@ -76,7 +84,9 @@
   <main>
     <div class="header">
       <h1>Your Categories</h1>
-      <button class="add-expense-btn" on:click={addCategory}>Add Category</button>
+      <button class="add-expense-btn" on:click={addCategory}
+        >Add Category</button
+      >
     </div>
 
     {#if isLoading}
@@ -101,10 +111,16 @@
                 <td>{category.name}</td>
                 <td>{category.budget.toFixed(2)}/-</td>
                 <td class="actions">
-                  <button class="edit-btn" on:click={() => editCategory(category._id)}>
+                  <button
+                    class="edit-btn"
+                    on:click={() => editCategory(category._id)}
+                  >
                     Edit
                   </button>
-                  <button class="delete-btn" on:click={() => deleteCategory(category._id)}>
+                  <button
+                    class="delete-btn"
+                    on:click={() => deleteCategory(category._id)}
+                  >
                     Delete
                   </button>
                 </td>
@@ -198,7 +214,9 @@
     border-radius: 8px; /* Rounded corners */
     border: none;
     cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.3s ease; /* Smooth transitions */
+    transition:
+      background-color 0.3s ease,
+      transform 0.3s ease; /* Smooth transitions */
     font-weight: 500;
   }
 

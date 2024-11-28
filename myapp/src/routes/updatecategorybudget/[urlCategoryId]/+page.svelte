@@ -15,6 +15,7 @@
 
   // Accessing URL params using $page store
   import { page } from "$app/stores";
+  import { addNotification } from "$lib/stores";
 
   // Capture categoryId from URL params
   let { urlCategoryId } = $page.params;
@@ -87,6 +88,8 @@
       if (response.ok) {
         const updatedCategory = await response.json();
         successMessage = `Budget updated successfully for ${updatedCategory.name}.`;
+        // After adding an expense
+        addNotification("Updated the category budget");
         fetchCategoryData(); // Refresh the category data after update
       } else {
         const errorData = await response.json();
